@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+  {% include "_modal.html" %}
+    
+  <div class="container mt-3">
+      <!--download button-->
+      <button type="button" class="download-file btn btn-sm btn-success">
+        <span class="fa fa-arrow-down"></span>
+      </button> 다운로드
+  <br>
+  { img_list.0 }
+  <a id="id_uploaded_file" href="{{img_list.0}}" download>{ img_list.0 }</a>
+  {% if not error_log  %}
+      {% for data in shop %}
+      <div class="m-5">
+        <div class="row"> 
+          <div class="col-sm-3">이름 : {{data.title}}</div> 
+        </div>
+        <div class="row"> 
+          <div class="col-sm-3">도매가 : {{data.price}}</div> 
+        </div>
+        <div class="row"> 
+          <div class="col-sm-3">원산지 : {{data.origin}}</div> 
+        </div>
+        <div class="row"> 
+          <div class="col-sm-3">스타일 : {{data.style}}</div> 
+        </div>
+        
+        <div class="row"> 
+          <div class="col-sm-3">모델 정보 : {{data.model|safe}}</div> 
+        </div>
+
+        <div class="row"> 
+          <div class="col-sm-3">혼용율 : {{data.mxratio|safe}}</div> 
+        </div>
+        
+        <div class="row"> 
+          <div class="col-sm-3">등록일자 : {{data.date|safe}}</div> 
+        </div>
+
+        <div class="row"> 
+          <div class="col-sm-3">상세정보 :{{data.detail|safe}}</div> 
+        </div>
+
+        <div class="row"> 
+          <div class="col-sm-3">색상 : {{data.color}}</div> 
+        </div>
+
+        <div class="row"> 
+          <div class="col-sm-3">사이즈 : {{data.size|safe}}</div> 
+        </div>
+
+        <div class="row"> 
+          <div class="col-sm-3">공지 : {{data.notify|safe}}</div> 
+        </div>
+        
+        <div class="row"> 
+          <div class="col-sm-3">상세사이즈 : {{data.length|safe}}</div> 
+        </div>
+
+
+        
+    </div>
+    {% endfor %}
+
+  {% else %}
+      {{error_log}}
+  {% endif %}
+
+  </div>
+
+{% endblock content %}
+
+{% block extrascripts %}
+
+
+{% endblock extrascripts %}
+

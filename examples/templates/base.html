@@ -1,0 +1,208 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    {% block stylesheets %}
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+      <!-- Font awesome CSS -->
+      <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+      <!--Font -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+      <!--Bootstrap CSS latest-->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+      <!-- Custom CSS -->
+      <style media="screen">
+        #quanbu{
+          text-decoration: none;
+        }
+        #shop_table_previous{
+          border-top-left-radius:.25rem;
+          border-bottom-left-radius:.25rem;
+        }
+        #shop_table_next{
+          border-top-right-radius:.25rem;
+          border-bottom-right-radius:.25rem;      
+        }
+        .paginate_button {
+          padding: .5rem .75rem;
+          background-color: #fff;
+          border: 1px solid #dee2e6;
+          position: relative;
+          display: inline-block;
+          margin-left: -1px;
+          line-height: 1.25;
+         
+        }
+        .paginate_button:hover {
+          background-color: #dee2e6;
+          
+        }
+
+        .dataTables_paginate {
+          text-align: center;
+          
+        }
+        .paginate_button.current{
+          background-color:#007bff;
+          color:#fff;
+          font-weight:500;
+        }
+        
+        .invalid {
+          color: #dc3545;
+          font-size: 80%;
+        }
+        body {
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+          /*font-family: 'Nanum Gothic', serif;*/
+          color: #566787;
+        /*font-family: 'Varela Round', sans-serif;*/
+
+        }
+        .header{
+          font-size:1.23rem;
+        }
+
+        table.table tr th, table.table tr td {
+          border-color: #e9e9e9;
+          vertical-align: middle;
+         
+        }
+        table.table-striped tbody tr:nth-of-type(odd) {
+          background-color: #fcfcfc;
+        }
+        table.table-striped.table-hover tbody tr:hover {
+          background: #f5f5f5;
+        }
+        table.table td a {
+        font-weight: bold;
+        color: #566787;
+        display: inline-block;
+        text-decoration: none;
+	      }
+        table.table td a:hover {
+          color: #2196F3;
+        }
+        
+        .footer {
+          margin: auto 0 0;
+          height: 56px;
+        }
+     
+        .img-fluid {
+            max-width: 12vw;
+            height: auto;
+        }
+        .pagination {
+          justify-content: center;
+        }
+
+        .size{
+          height: 20rem;
+        }
+        .max-small {
+          /*
+          width: auto; height: auto;
+          max-height:80rem;
+          max-width: 100%;
+          */
+          width: 100%;
+          height: 20rem;
+          box-sizing: border-box;
+          object-fit: contain;
+        }
+        .col-sm-4 {
+          -ms-flex: 0 0 100%;
+          flex: 0 0 100%;
+          margin-bottom:3vw;
+        }
+        .list-group-item{
+          padding : .75rem .25rem;
+        }
+        .filterable {
+           margin-top: 15px;
+        }
+        .filterable .panel-heading .pull-right {
+            margin-top: -20px;
+        }
+        .filterable .filters input[disabled] {
+            background-color: transparent;
+            border: none;
+            cursor: auto;
+            box-shadow: none;
+            padding: 0;
+            height: auto;
+        }
+        .filterable .filters input[disabled]::-webkit-input-placeholder {
+            color: #333;
+        }
+        .filterable .filters input[disabled]::-moz-placeholder {
+            color: #333;
+        }
+        .filterable .filters input[disabled]:-ms-input-placeholder {
+            color: #333;
+        }
+        /*index datables*/
+        .dataTables_filter {
+          display: none;
+        }
+
+      </style>
+    {% endblock stylesheets %}
+
+    <title>django-crawling-website</title>
+  </head>
+
+  <body>
+
+    <!-- Includes -->
+    {% include "_header.html" %}
+
+    {% block content %}{% endblock content %}
+
+    <!-- Includes -->
+    {% include "_footer.html" %}
+
+    <!-- JavaScript -->
+    {% block scripts %}
+      <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script> <!--pagination-->
+      <script src="{% static 'assets/js/popper.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+      <!-- You can alternatively load the minified version -->
+      <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.fileDownload/1.4.2/jquery.fileDownload.min.js"></script>      
+
+      <!--_header navbar active js-->
+
+
+      <script type="text/javascript">
+        var loc = window.location.pathname;
+      
+         $('.navbar').find('a').each(function() {
+           $(this).toggleClass('active', $(this).attr('href') == loc);
+        });
+      </script>
+      
+    {% endblock scripts %}
+
+  
+    {% block extrascripts %}
+
+    {% endblock extrascripts %}
+
+  </body>
+
+</html>

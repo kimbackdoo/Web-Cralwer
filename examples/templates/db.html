@@ -1,0 +1,188 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+  {% include "_modal.html" %}
+
+  <div class="container mt-3">
+
+    {% include "_search_modal.html" %}
+
+
+  <div>
+    <h5 class="text-center">총 {{length}} 개</h5>
+  </div>
+    
+  <div class="row">
+    <!--static -->
+  {% for data in posts %}
+    <div class="col-sm-4"><!--col-sm-4-->
+    <div class="card my-y-3" id ="{{data.0.id}}">
+      <div class= "size">
+      {% if data.2.0 %}
+      <img class="card-img-top max-small" src="{{data.2.0}}" onerror="this.onerror=null;this.src='../static/img/{{data.0.title}}.jpg';" alt="image"  data-toggle="collapse" href="#collapseExample{{data.0.id}}" aria-expanded="false" aria-controls="collapseExample{{data.0.id}}" >
+      {% else %}
+      <img class="card-img-top max-small" src="{% static 'img/no-image.png' %}" alt="no-image" data-toggle="collapse" href="#collapseExample{{data.0.id}}" aria-expanded="false" aria-controls="collapseExample{{data.0.id}}" >
+      {% endif %} 
+      </div>
+<!--값이 있는 것만 출력 -->
+      <div class="card-body">
+        <h5 class="card-title" style="text-align: center;" >{{data.0.f_k.title}}-{{data.0.title}}</h5>
+        <div class="collapse" id="collapseExample{{data.0.id}}">
+        <p class="card-text">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><!---->
+              <p class="card-text"><b>총 이미지 수</b> : {{data.1}}개</p>
+              {% if data.0.f_k.url %}
+              <p class="card-text"><b>거래처</b> : {{data.0.f_k.title}}</p>
+              {% endif%}
+              {% if data.0.price %}
+              <p class="card-text"><b>도매가</b> : {{data.0.price}}</p>
+              {% endif%}
+              {% if data.0.origin %}
+              <p class="card-text"><b>원산지</b> : {{data.0.origin}}</p>
+              {% endif%}
+              {% if data.0.style %}
+              <p class="card-text"><b>스타일</b> : {{data.0.style}}</p>
+              {% endif%}
+              {% if data.0.model %}
+              <p class="card-text"><b>모델 정보</b> : {{data.0.model|safe}}</p>
+              {% endif%}
+              {% if data.0.mxratio %}
+              <p class="card-text"><b>혼용율</b> : {{data.0.mxratio|safe}}</p>
+              {% endif%}
+              {% if data.0.date %}
+              <p class="card-text"><b>등록일자</b> : {{data.0.date|safe}}</p>
+              {% endif%}
+              {% if data.0.detail %}
+              <p class="card-text"><b>상세정보</b> : <br>{{data.0.detail|safe}}</p>
+              {% endif%}
+              {% if data.0.color %}
+              <p class="card-text"><b>색상</b> : {{data.0.color|safe}}</p>
+              {% endif%}
+              {% if data.0.size %}
+              <p class="card-text"><b>사이즈</b> : {{data.0.size|safe}}</p>
+              {% endif%}
+              {% if data.0.notify %}
+              <p class="card-text"><b>공지</b> : <br>{{data.0.notify|safe}}</p>
+              {% endif%}
+              {% if data.0.length %}
+              <p class="card-text"><b>상세 사이즈</b> : {{data.0.length|safe}}</p>
+              {% endif%}
+              {% if data.0.storeName %}
+              <p class="card-text"><b>가게 정보</b> : {{data.0.storeName|safe}} {{data.0.tel|safe}}</p>
+              {% endif%}
+              {% if data.0.basicInfo %}
+              <p class="card-text"><b>상품등록</b> : {{data.0.basicInfo|safe}}</p>
+              {% endif%}
+              <p class="text-center">
+                <button type="button" class="px-md-5 btn btn-secondary btn-sm" onclick="window.open('{{data.0.url}}')">URL</button>
+                <button type="button" class="px-md-5 folderbtn btn btn-warning btn-sm" value="{{data.3}}">폴더 열기</button>
+              </p>
+              
+            </li>
+          </ul>
+        </p>
+       </div>
+      </div>
+
+      <div class="card-footer" style="text-align: center; padding: .22rem 1.25rem;" data-toggle="collapse" href="#collapseExample{{data.0.id}}" aria-expanded="false" aria-controls="collapseExample{{data.0.id}}" >
+        <small class="text-muted" ><i class="collapse-event fa fa-caret-down "  aria-hidden="true" style="font-size:1.5rem;"></i></small>
+      </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+      {% if posts.has_previous%}
+      <li class="page-item"><a class="page-link" href="?page=1">처음</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{posts.previous_page_number}}">이전</a></li>
+      {% endif %}
+      <li class="page-item">
+        <a class="page-link" ><b>{{posts.number}}</b></span>
+          <span>/</span>
+          <span>{{posts.paginator.num_pages}}</span></a>
+      </li>
+      {% if posts.has_next%}
+      <li class="page-item"><a class="page-link" href="?page={{posts.next_page_number}}">다음</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{posts.paginator.num_pages}}">마지막</a></li>
+      {% endif %}    
+      </ul>
+    </nav>
+  <!--
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+-->
+</div>
+
+
+{% endblock content %}
+
+{% block extrascripts %}
+<script>
+  $( document ).ready( function() {
+    $('.card img').click( function() {
+      var id_check = $(this).parent().parent().attr('id');
+      //alert(id_check);
+      $( '#'+id_check+' i').toggleClass( 'fa-caret-down fa-caret-up' );
+    } );
+  } );
+
+</script>
+
+
+<script>
+/*folder open in views.py def db */
+$(".folderbtn").click(function(){
+    var dirName = $(this).val();
+    $.ajax({
+        method: 'POST',
+        url: "{% url 'db' %}", 
+        data: {'csrfmiddlewaretoken': '{{ csrf_token }}', 'dirName': dirName}, 
+
+        error: function (data) {
+             alert(dirName+" 폴더가 존재하지 않습니다.");
+        }
+    });
+
+  });
+
+</script>
+
+<script>
+
+  $(".set-path").click(function(){
+      //form submit
+      var dirName = $(this).val();
+      $('#keyword2').val(dirName);
+      $('#search_submit2').submit();
+  
+    });
+  
+</script>
+
+
+
+{% endblock extrascripts %}
+
+

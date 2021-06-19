@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  {% include "_modal.html" %}
+
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col">
+        <h4>
+          <strong>기타</strong>
+        </h4>
+        <p>그 외 거래처</p>
+        <div class="mb-3" style="display:flex; flex-direction: row;"> 
+
+          <div class="mr-sm-3">
+            <!--<button type="button" class="create-book btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Add"><span class="fa fa-plus mr-2"></span>거래처 추가</button>-->  
+
+            <button type="button" class="set-path btn btn-primary btn btn-secondary btn-xs" data-toggle="modal" data-target="#exampleModal">
+              <span class="fa fa-wrench mr-2"></span>패스 설정
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">전체 경로 설정</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="form-group">
+                        <label for="Path">경로 주소</label>
+                        <input type="text" class="form-control" id="Pathvalue" aria-describedby="pathHelp" placeholder="Enter path">
+                        <small id="pathHelp" class="form-text text-muted">전체 경로를 입력해주세요. </small>
+                      </div>                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="totalpath">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>   
+              <!--Modal--> 
+            </div>
+          </div>
+
+          <div class="mb-3 table-responsive">
+            <table class="table table-striped table-hover" id ="shop_table">
+              <thead>
+                <tr>
+                  <th class="text-center" scope="col">#</th>
+                  <th class="text-center" scope="col">Shop</th>
+                  <th class="text-center" scope="col">URL</th>
+                  <th class="text-center" scope="col">Path</th>
+                  <th class="text-center" scope="col">Crawl</th>
+                  <th class="text-center" scope="col">Read/Update/Delete</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for book in others %}
+                  <tr>
+                    <th class="text-center" scope="row">
+                      {{ forloop.counter }}
+                    </th>
+                    <td class="text-center px-1"><a href = {{book.url}} target = "_blank">{{ book.title }}</a></td>
+                    <td class="text-center">
+                      <form class="form-inline my-2 my-lg-0" style="display: inline-block;">
+                      <input type="text" class="form-control crawl_url" name="input_{{book.pk}}">
+                      </form>
+                    </td>
+                    <td class="text-center newpath">{{ book.path }}</td>
+                    <td class="text-center">
+                      <button id="{{ book.title }}" name = "{{book.pk}}" class="crawl btn btn-success" data-toggle="tooltip" data-placement="top" title="crawl" type="submit">
+                      <i style="font-size:1.6rem;vertical-align: middle;"class="fa fa-arrow-circle-right"></i>
+                      </button>
+                    </td>
+                    <td class="text-center px-1">
+                      <button type="button" class="read-book btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="read" data-id="{% url 'read_book' book.pk %}">
+                        <span class="fa fa-eye"></span>
+                      </button>
+                      <button type="button" class="update-book btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="edit" data-id="{% url 'update_book' book.pk %}">
+                        <span class="fa fa-pencil"></span>
+                      </button>
+                      <!--
+                      <button type="button" class="delete-book btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="delete" data-id="{% url 'delete_book' book.pk %}">
+                        <span class="fa fa-trash"></span>
+                      </button>
+                      -->
+                    </td>
+                  </tr>
+                {% endfor %}  
+              </tbody>
+     
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}
+
+{% block extrascripts %}
+  <script type="text/javascript">
+    $(function () {
+
+      // Create book button
+      $(".create-book").modalForm({formURL: "{% url 'create_book' %}", modalID: "#create-modal"});
+
+      // Update book buttons
+      $(".update-book").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+
+      // Read book buttons
+      $(".read-book").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+
+      // Delete book buttons
+      $(".delete-book").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      })
+
+      // Hide message
+      $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+        $(".alert").slideUp(500);
+      });
+
+      //Set Path Button
+      //;
+
+
+    });
+    
+  </script>
+
+
+
+<script type="text/javascript">
+/*테이블 검색*/
+  $("#keyword").keyup(function() {
+
+    var k = $(this).val();
+    $("#shop_table > tbody > tr").hide();
+    
+    var temp = $("#shop_table > tbody > tr > td:nth-child(5n+3):contains('" + k + "')");
+
+    $(temp).parent().show();
+    
+  })
+
+</script>
+
+<script>
+  /*checkbox*/
+  $(document).ready(function(){
+    $("#shop_table #checkall").click(function () {
+
+
+      if ($("#shop_table #checkall").is(':checked')) {
+
+        $("#teset").css('display','inline-block');
+
+          $("#shop_table input[type=checkbox]").each(function () {
+              $(this).prop("checked", true);
+          });
+
+      } else {
+         $("#teset").css('display','none');
+          $("#shop_table input[type=checkbox]").each(function () {
+              $(this).prop("checked", false);
+          });
+
+          
+      }
+    });
+        
+    $("[data-toggle=tooltip]").tooltip();
+  
+    });
+
+</script>
+<script>
+
+$(document).ready(function(){
+    
+    //tbody에 있는 checkbox 클릭했다면 
+    $("#shop_table tbody input[type=checkbox]").click(function () {
+        //한개라도 checked 가 되면 보여줘야함 
+        if($("#shop_table tbody input[type=checkbox]").is(':checked')){
+          $("#teset").css('display','inline-block');
+        }else{
+          $("#teset").css('display','none');
+        }
+
+        //atbody에 있는s fcheckbox를 클릭했는데 all 이 checked 되d어 있으면 
+        if($("#shop_table #checkall").is(':checked')){
+          $("#shop_table #checkall").prop("checked", false);
+        }
+    });
+
+
+    $('#teset').click("#crawling_together", function() {
+        //alert('dd');
+        //체크된 애들 정보 가져와서 list로 
+        event.preventDefault();
+        var searchIDs = $("#shop_table tbody input:checkbox:checked").map(function(){
+          //return $(this).val();
+          return this.name;
+          
+        }).get() // <----
+        console.log(searchIDs);
+        
+        
+
+          //new button
+        if ($('#spinner').length ==0 ) { //버튼没有的时候
+          var span = "<span class='spinner-border spinner-border-sm' id='spinner'></span>";
+          $(this).append(span);
+        }
+        //함수 실행
+        $.ajax_together(searchIDs); 
+  
+
+      });
+
+  });
+</script>
+<script>
+   //<span class="spinner-border spinner-border-sm"></span>
+   $(document).ready(function(){
+      $(".crawl").one('click', function () {
+          //new button
+          if ($('#spinner').length ==0 ) { //버튼没有的时候
+            var span = "<span class='spinner-border spinner-border-sm' id='spinner'></span>";
+            $(this).append(span);
+          }
+      });
+
+  });
+  
+
+</script>
+<script>
+//ajax
+$(".crawl").click(function(){
+    var pk = $(this).attr('name')
+
+    console.log(pk);
+    var crawl_url = $('input[name=input_'+pk+']').val() //빈칸지우기 
+    console.log(crawl_url);
+    var name = $(this).attr('id')
+    //var kinds = $() //신상, 카스, 네이버, 카페, 
+
+    //url과 id. password 빈값 체크
+
+    $.ajax({ 
+      type: "POST",
+      url: "{% url 'other_crawl' %}", 
+      data: {'pk': pk, 'name': name, 'crawl_url' : crawl_url, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, 
+      dataType: "json", 
+      // {'error_log': post.error_log}
+      success: function(response){ // 성공시 
+        alert(response.error_log);        
+      },
+      error: function(request, status, error){ // 실패시 
+         alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+      },
+      complete : function() {
+        //spin없애기
+        $("#spinner").remove(); 
+      }
+    });
+  })
+
+</script>
+
+  <script>
+    $(document).on('click','#totalpath',function(){
+      
+      $.ajax({
+        url: "{% url 'setpath2' %}", 
+        type:'POST',
+        data:{
+            'totalpath': $('input[id=Pathvalue]').val(),
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success:function(data){
+          //console.log(data);
+          //modal text 바꾸기 
+          $('.newpath').text(data.totalpath);
+        },
+        error:function(){
+          alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        },
+        complete : function() {
+          //modal 끄기 
+          $('.modal').modal('hide');
+
+        }
+     });
+    });
+  </script>
+{% endblock extrascripts %}

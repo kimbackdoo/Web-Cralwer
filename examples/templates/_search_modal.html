@@ -1,0 +1,52 @@
+{% load static %}
+<!--
+<form action="{% url 'db' %}" method="get">
+    {% csrf_token %}
+    <button type="button" class="btn btn-primary btn-secondary btn-xs" value="전체">
+    전체
+    </button> 
+</form>
+-->
+<a id = "quanbu" href="{% url 'db' %}">
+    <button type="button" class="btn btn-primary btn-secondary btn-xs" value="전체">
+        전체
+    </button> 
+</a>
+
+<button type="button" class="set-path btn btn-primary btn-secondary btn-xs" value="거래처" >
+거래처
+</button>
+<button type="button" class="set-path btn btn-primary btn-secondary btn-xs" value="신상마켓" >
+신상마켓
+</button>
+<button type="button" class="set-path btn btn-primary btn-secondary btn-xs" value="네이버" >
+네이버
+</button>
+<button type="button" class="set-path btn btn-primary btn-secondary btn-xs"value="카카오스토리">
+카카오스토리
+</button>
+
+<form class="form-inline my-2 my-lg-0 " id="search_submit" style="display: inline-block; " action = "{% url 'search_app:searchResult' %}" method = "get">
+    
+    <input class="form-control fa fa-fa-search " type="search" placeholder="거래처명이나 상품 이름 검색." aria-label="Search" id="keyword" name ="q">
+    <button class= "btn btn-secondary my-2 my-sm-0" type ="submit"><i class="fa fa-search"></i></button>
+</form>
+
+
+<form class="form-inline my-2 my-lg-0 " id="search_submit2" style="display: none; " action = "{% url 'search_app:searchResult' %}" method = "get">
+    <input class="form-control fa fa-fa-search" type="hidden" id="keyword2" name ="s"> 
+    <button class= "btn btn-secondary my-2 my-sm-0" type ="submit"><i class="fa fa-search"></i></button>
+</form>
+
+
+<!--
+<div class="input-group mb-3">
+<input type="text" class="form-control" placeholder="거래처명이나 상품 이름 검색" aria-label="Recipient's username" aria-describedby="basic-addon2">
+<div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button">Button</button>
+</div>
+</div>
+-->
+
+
+
